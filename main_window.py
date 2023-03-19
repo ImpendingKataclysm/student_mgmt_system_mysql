@@ -67,12 +67,15 @@ class MainWindow(QMainWindow):
         """
         db = Database()
         connection = db.connect()
-        result = connection.execute(db.display_query)
+        cursor = connection.cursor()
+        cursor.execute(db.display_query)
+        result = cursor.fetchall()
         self.table.setRowCount(0)
         for row_number, row_data in enumerate(result):
             self.table.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 self.table.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+        cursor.close()
         connection.close()
 
     def insert(self):

@@ -36,7 +36,8 @@ class SearchDialog(QDialog):
         name = self.student_name.text().title()
         connection = db.connect()
         cursor = connection.cursor()
-        result = cursor.execute(db.search_query, (name, ))
+        cursor.execute(db.search_query, (name, ))
+        result = cursor.fetchall()
         rows = list(result)
 
         cursor.close()
